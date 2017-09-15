@@ -39,8 +39,8 @@ function module_a_entity_info() {
       'label' => t('@type', array('@type' => $type)),
       'uri callback' => 'vehicle_uri',
       'admin' => array(
-        'path' => 'admin/structure/types/manage/%vehicle_type',
-        'real path' => 'admin/structure/types/manage/' . $type,
+        'path' => 'admin/structure/vehicles/manage/%vehicle_type',
+        'real path' => 'admin/structure/vehicles/manage/' . $type,
         'bundle argument' => 4,
         'access arguments' => ['administer content types'],
       ),
@@ -51,18 +51,46 @@ function module_a_entity_info() {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function module_a_menu() {
+  // Manage every vehicle type.
+  $items['admin/structure/vehicles/manage/%vehicle_type'] = array(
+    'title callback' => 'module_a_title_callback',
+    'title arguments' => array(4, 'manage'),
+    'page callback' => 'module_a_list_vehicle_type',
+    'acces arguments' => array('administer content types'),
+  );
+
+  // Manage all vehicles.
+  $items['admin/content/vehicles/manage/'] = array(
+    'title' => 'Manage vehicles',
+    'description' => 'List of vehicles to manage.',
+    'page callback' => 'module_a_list_vehicles',
+    'acces arguments' => array('administer content types'),
+  );
+
+  return $items;
+}
+
+/**
+ * Page callback implementation to list vehicles.
+ */
+function module_a_list_vehicles() {
+  // Load vehicles
+  // Return them.
+}
+
+/**
+ * Page callback Implementation to list vehicles of same type.
+ */
+function module_a_list_vehicle_type($arg) {
+  // Load vehicle by type given in args.
+  // Return entities.
+}
+
+/**
  * Class VehicleController.
  */
-class VehicleController implements DrupalEntityControllerInterface {
-
-  /**
-   * @param array|NULL $ids
-   */
-  public function resetCache(array $ids = NULL) {
-    // TODO: Implement resetCache() method.
-  }
-  
-  public function load($ids = [], $conditions = []) {
-    // TODO: Implement load() method.
-  }
+class VehicleController extends DrupalDefaultEntityController {
 }

@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Implementation of module_a.
+ */
+
+/**
+ * Implements hook_entity_info().
+ */
+function module_a_entity_info() {
+  $return = array(
+    'vehicle' => array(
+      'label' => t('Vehicle'),
+      'controller class' => 'VehicleController',
+      'base table' => 'vehicle',
+      'revision table' => 'vahicle_revision',
+      'uri callback' => 'vehicle_uri',
+      'fieldable' => TRUE,
+      'translation' => array(
+        'locale' => TRUE,
+      ),
+      'entity keys' => array(
+        'id' => 'vhid',
+        'revision' => 'vid',
+        'bundle' => 'type',
+        'language' => 'language',
+      ),
+      'bundle keys' => array(
+        'bundle' => 'type',
+      ),
+      'bundles' => array(),
+      'view modes' => array(),
+    ),
+  );
+  $types = array('car', 'van', 'truck');
+  foreach ($types as $type) {
+    $return['vehicle']['bundles'][$type] = array(
+      'label' => t('@type', array('@type' => $type)),
+      'uri callback' => 'vehicle_uri',
+      'admin' => array(
+        'path' => 'admin/structure/types/manage/%vehicle_type',
+        'real path' => 'admin/structure/types/manage/' . $type,
+        'bundle argument' => 4,
+        'access arguments' => ['administer content types'],
+      ),
+    );
+  }
+
+  return $return;
+}
+
+/**
+ * Class VehicleController.
+ */
+class VehicleController implements DrupalEntityControllerInterface {
+
+  /**
+   * @param array|NULL $ids
+   */
+  public function resetCache(array $ids = NULL) {
+    // TODO: Implement resetCache() method.
+  }
+  
+  public function load($ids = [], $conditions = []) {
+    // TODO: Implement load() method.
+  }
+}

@@ -1,0 +1,3 @@
+name = Module A
+description = Module A for entities training.
+core = 7.x

@@ -1,0 +1,120 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the module A module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function module_a_schema() {
+  $schema['vehicle'] = array(
+    'description' => 'The base table for vehicles.',
+    'fields' => array(
+      'vhid' => array(
+        'description' => 'The primary identifier for a vehicle.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'vid' => array(
+        'description' => 'The current {vehicle_revision}.vid version identifier.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'type' => array(
+        'description' => 'The {vehicle_type} of this vehicle.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'model' => array(
+        'description' => 'The model reference of this vehicle',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the entity was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' => 'The Unix timestamp when the entity was most recently saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'vehicle_changed' => array('changed'),
+      'vehicle_created' => array('created'),
+    ),
+    'unique keys' => array(
+      'vhid_vid' => array('vhid', 'vid'),
+      'vid' => array('vid'),
+    ),
+    'foreign keys' => array(
+      'vehicle_revision' => array(
+        'table' => 'vehicle_revision',
+        'columns' => array('vid' => 'vid'),
+      ),
+    ),
+    'primary key' => array('vhid'),
+  );
+
+  $schema['vehicle_revision'] = array(
+    'description' => 'Stores information about each saved version of a {vehicle}.',
+    'fields' => array(
+      'vhid' => array(
+        'description' => 'The {vehicle} this version belongs to.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'vid' => array(
+        'description' => 'The primary identifier for this version.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => 'The {vehicle_type} of this vehicle.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'model' => array(
+        'description' => 'The model reference of this vehicle',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'log' => array(
+        'description' => 'The log entry explaining the changes in this version.',
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+      'timestamp' => array(
+        'description' => 'A Unix timestamp indicating when this version was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'unique keys' => array(
+      'vid' => array('vid'),
+    ),
+    'primary key' => array('vid'),
+  );
+  return $schema;
+}

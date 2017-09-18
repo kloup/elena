@@ -79,6 +79,7 @@ function module_a_menu() {
 function module_a_list_vehicles() {
   // Load vehicles
   // Return them.
+
   return 'testing';
 }
 
@@ -91,6 +92,7 @@ function module_a_list_vehicle_type($arg) {
 }
 
 /**
+
  * Get vehicles types.
  */
 function _module_a_get_vehicles_types() {

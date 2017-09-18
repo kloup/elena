@@ -63,15 +63,36 @@ function module_a_menu() {
   );
 
   // Manage all vehicles.
-  $items['admin/content/vehicles/manage/'] = array(
+  $items['admin/content/vehicles/manage'] = array(
     'title' => 'Manage vehicles',
     'description' => 'List of vehicles to manage.',
     'page callback' => 'module_a_list_vehicles',
-    'acces arguments' => array('administer content types'),
+    'access arguments' => array('administer content types'),
   );
+
+  // Add vehicule.
+  $types = _module_a_get_vehicles_types();
+  foreach ($types as $type) {
+    $items['admin/content/vehicles/add/' . $type] = array(
+      'title' => $type,
+      'description' => 'Add vehicle.',
+      'page callback' => 'module_a_add_vehicle',
+      'page arguments' => array(4),
+      'access arguments' => array('administer content types'),
+    );
+  }
 
   return $items;
 }
+
+/**
+ * @file
+ * Page callback implementation for adding new vehicle.
+ */
+function module_a_add_vehicle($type) {
+  return 'testing ading vehicle case';
+}
+
 
 /**
  * Page callback implementation to list vehicles.
@@ -86,7 +107,7 @@ function module_a_list_vehicles() {
 /**
  * Page callback Implementation to list vehicles of same type.
  */
-function module_a_list_vehicle_type($arg) {
+function module_a_list_vehicle_types($arg) {
   // Load vehicle by type given in args.
   // Return entities.
 }

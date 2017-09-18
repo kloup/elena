@@ -33,7 +33,7 @@ function module_a_entity_info() {
       'view modes' => array(),
     ),
   );
-  $types = array('car', 'van', 'truck');
+  $types = _module_a_get_vehicles_types();
   foreach ($types as $type) {
     $return['vehicle']['bundles'][$type] = array(
       'label' => t('@type', array('@type' => $type)),
@@ -79,6 +79,8 @@ function module_a_menu() {
 function module_a_list_vehicles() {
   // Load vehicles
   // Return them.
+
+  return 'testing';
 }
 
 /**
@@ -87,6 +89,23 @@ function module_a_list_vehicles() {
 function module_a_list_vehicle_type($arg) {
   // Load vehicle by type given in args.
   // Return entities.
+}
+
+/**
+
+ * Get vehicles types.
+ */
+function _module_a_get_vehicles_types() {
+  return array('car', 'van', 'truck');
+}
+
+/**
+ * Implements the uri callback.
+ */
+function module_a_vehicle_uri($vehicle) {
+  return array(
+    'path' => 'vahicles/' . $vehicle->vhid,
+  );
 }
 
 /**

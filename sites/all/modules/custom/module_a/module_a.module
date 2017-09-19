@@ -14,7 +14,7 @@ function module_a_entity_info() {
       'label' => t('Vehicle'),
       'controller class' => 'VehicleController',
       'base table' => 'vehicle',
-      'revision table' => 'vahicle_revision',
+      'revision table' => 'vehicle_revision',
       'uri callback' => 'vehicle_uri',
       'fieldable' => TRUE,
       'translation' => array(
@@ -71,10 +71,19 @@ function module_a_menu() {
   );
 
   // Add vehicule.
+  $items['admin/content/vehicles/add'] = array(
+    'title' => 'Vehicle',
+    'description' => 'Add vehicle.',
+    'page callback' => 'module_a_add_vehicle_overview',
+    'access arguments' => array('administer content types'),
+    'type' => MENU_CALLBACK,
+  );
+
   $types = _module_a_get_vehicles_types();
   foreach ($types as $type) {
-    $items['admin/content/vehicles/add/' . $type] = array(
-      'title' => $type,
+    $item_path = 'admin/content/vehicles/add/' . $type;
+    $items[$item_path] = array(
+      'title' => drupal_ucfirst($type),
       'description' => 'Add vehicle.',
       'page callback' => 'module_a_add_vehicle',
       'page arguments' => array(4),
@@ -83,6 +92,13 @@ function module_a_menu() {
   }
 
   return $items;
+}
+
+/**
+ * Page callback implementation for add vehicle overview.
+ */
+function module_a_add_vehicle_overview() {
+  return 'none';
 }
 
 /**
